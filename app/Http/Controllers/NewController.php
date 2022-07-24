@@ -11,13 +11,13 @@ class NewController extends Controller
 {
     public function wel()
     {
-        $products= DB::table('products')->get();
-        return view('welcome',['products' => $products]);
+        $products= Product::paginate(12);
+        return view('welcome',compact('products'));
     }
     public function index()
     {
-        $products= DB::table('products')->get();
-        return view('home',['products' => $products]);
+        $products = Product::paginate(12);
+        return view('home', compact('products'));
     }
 
     public function contact(){

@@ -19,12 +19,14 @@ class TransaksiController extends Controller
     }
 
     public function test(){
+        
         $orders = Order::where('user_id', auth()->user()->id)->get();
 
         for ($i = 0; $i < sizeof($orders); $i++) {
             $pesanan[$i] = Pesanan::where('order', $orders[$i]->id)->get();
         }
-        return view('transaksi.detail_pesanan', compact('pesanan','orders'));
+        $alamat = Alamat::where('user_id', auth()->user()->id)->get();
+        return view('transaksi.detail_pesanan', compact('pesanan','orders','alamat'));
     }
 
     public function pembayaran()

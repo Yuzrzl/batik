@@ -8,17 +8,6 @@
 
         
         <div class="container-fluid">
-            <div class="dropdown mb-2">
-                <form action="/laporan-transaksi" method="GET">
-                    @csrf
-                    <select name="search" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <option selected value="">Pilih Status Pembayaran</option>
-                        <option value="settlement"> Settlement</option>
-                        <option value="pending">Pending</option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">pilih</button>
-                </form>
-            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -50,10 +39,6 @@
                             </table>
                         </div>
                         <!-- /.card-body -->
-
-                        <div class="card-footer clearfix">
-                            {{ $orders->links() }}
-                        </div>
                     </div>
 
                 </div>

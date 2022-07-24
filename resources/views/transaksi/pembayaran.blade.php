@@ -21,7 +21,7 @@
                     <td>Alamat Tujuan</td>
 
                     @foreach ($alamat as $item)
-                    <p hidden>{{ $dest = $item->destination }}</p>
+                    <p hidden>{{ $dest = $item->destination ?: '39' }}</p>
                     <td>: {{ $alamat_lengkap = $item->alamat.', '.$item->destination_name.', '.$item->kodepos}}</td>
                     <td><a class="bg-yellow-500 hover:bg-yellow-400 text-white p-2 rounded-xl" href="{{ '/edit_alamat/'.$item->id }}">ubah alamat</a></td>
                     @endforeach

@@ -43,7 +43,6 @@ class RajaOngkirController extends Controller
       //       'description' => $row['description'],
       //    );
       // }
-
       
 
       $provinces = Province::all();

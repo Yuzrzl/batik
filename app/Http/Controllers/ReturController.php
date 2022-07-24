@@ -9,30 +9,48 @@ class ReturController extends Controller
 {
     public function index()
     {
-        return view('retur.retur');
+        return view('retur.new_retur');
     }
 
     public function store(Request $request)
     {
-        $data = retur::create([
-            'user_id' => auth()->user()->id,
-            'keluhan' => $request->keluhan,
-            'transaksi' => $request->transaksi,
-            'gambar' => $request->gambar,
-            'deskripsi' => $request->deskripsi
-        ],);
+       
+        $data = $request->except(['_token']);
 
         if ($request->file('gambar')) {
             $namaGbr = time() . '.' . $request->file('gambar')->extension();
             $data['gambar'] = $request->file('gambar')->move('data_file/', $namaGbr);
         }
 
+        retur::insert($data);
+
+        
         return redirect()->back();
+    }
+
+    public function simpan(Request $request){
+        $this->validate($request, [
+            'keluhan' => 'required',
+            'transaksi' => 'required',
+            'gambar' => 'required|image',
+            'deskripsi' => 'required',
+        ]);
+
+        $data = $request->except(['_token']);
+
+        if ($request->file('gambar')) {
+            $namaGbr = time() . '.' . $request->file('gambar')->extension();
+            $data['gambar'] = $request->file('gambar')->move('data_file/', $namaGbr);
+        }
+
+        retur::insert($data);
+
+        return redirect('home');
     }
 
     public function admin()
     {
-        $returs = retur::paginate()->all();
+        $returs = retur::paginate(10);
         return view('admin.retur.retur', compact('returs'));
     }
 

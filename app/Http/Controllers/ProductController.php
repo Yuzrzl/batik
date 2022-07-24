@@ -10,14 +10,15 @@ use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
-    public function daftar_produk()
+    public function daftar_produk(Request $request)
     {
-        // $products = DB::table('products')->paginate(5);
+        if ($request->has('search')) {
+            $products = Product::where('product_name', 'LIKE', '%' . $request->search . '%')->paginate(10);
+        } else {
+            $products = Product::paginate(10);
+        }
 
-        $products = Product::all();
-        return view('admin.produk.daftar_produk', ['products' => $products])->with([
-            'products' => $products,
-        ]);
+        return view('admin.produk.daftar_produk', compact('products'));
     }
     public function tambah_produk()
     {

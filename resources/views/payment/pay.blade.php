@@ -1,21 +1,20 @@
 @extends('template.home_template')  
 @section('home')
 
-  <h1>Klik Bayar Untuk Memilih metode pembayaran</h1>
-  {{-- @foreach ($pesanan as $item)
-      
-  {{ $item->id_pesanan }}
-  @endforeach --}}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script type="text/javascript"
-      src="https://app.sandbox.midtrans.com/snap/snap.js"
-      data-client-key="SB-Mid-client-9ZmOtl21kQPuItRW"></script>
-    <div class="container">
+  <div class="container p-4 my-4 bg-white">
+    <h1 class="text-center text-lg text-bold uppercase">Klik Bayar Untuk Memilih metode pembayaran</h1>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript"
+  src="https://app.sandbox.midtrans.com/snap/snap.js"
+  data-client-key="SB-Mid-client-9ZmOtl21kQPuItRW"></script>
+  <div class="container mt-2 p-4">
       <form action="/index" method="POST" >
         @csrf
       </form>
-      <div class="content flex justify-center">
+      <div class="content flex justify-center bg-white">
         <button class="bg-yellow-500 hover:bg-yellow-400 py-2 px-4 text-white rounded-xl text-center"  id="pay-button">Bayar</button>
       </div>
 
@@ -58,5 +57,8 @@
         $('#submit_form').submit();
       }
       </script>
+      <div class="container p-4 mt-2 bg-white">
+        <p class="text-center text-red-500">Jika Anda Menekan Tombol bayar, berarti sudah setuju untuk pemesanan dan data tidak akan bisa dirubah</p>
+      </div>
       </div>
 @endsection

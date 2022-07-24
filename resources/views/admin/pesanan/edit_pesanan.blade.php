@@ -24,10 +24,10 @@
     <form action="{{ '/update_status/'.$pesanan->id }}" method="POST">
         @csrf
         <select style="width: 18rem;" class="form-control" name="status" id="">
-            <option value="pesanan diterima">pesanan diterima</option>
-            <option value="pesanan dibuat">pesanan dibuat</option>
-            <option value="diproses">diproses</option>
-            <option value="pesanan jadi">pesanan jadi</option>
+            <option  value="{{$pesanan->status }}">{{ $pesanan->status }}</option>
+            <option value="pesanan diterima">Pesanan diterima</option>
+            <option value="pesanan dibuat">Pesanan dibuat</option>
+            <option value="Pesanan Selesai">Pesanan Selesai</option>
         </select>
         <label class="mt-4" for="">No Resi</label>
         <input style="width: 18rem;"  type="text" name="resi" class="form-control" value="{{ $pesanan->resi }}">

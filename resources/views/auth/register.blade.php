@@ -41,7 +41,7 @@
                        placeholder="{{ __('Telepon') }}" required autocomplete="telp">
                 <div class="input-group-append">
                     <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
+                        <span class="fas fa-phone"></span>
                     </div>
                 </div>
                 @error('telp')

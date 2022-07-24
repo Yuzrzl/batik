@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Alamat;
 use App\Models\City;
 use App\Models\Order;
+use App\Models\Pesanan;
 use App\Models\Product;
 use App\Models\Province;
+use App\Models\retur;
 use App\Models\Transaksi;
 
 class HomeController extends Controller
@@ -35,7 +37,9 @@ class HomeController extends Controller
         $user = User::all();
         $product = Product::all();
         $orders = Order::all();
-        return view('admin.dashboard', ['users' => $user, 'products' => $product, 'orders' => $orders]);
+        $pesanan = Pesanan::all();
+        $retur = retur::all();
+        return view('admin.dashboard', compact('user','product','orders','pesanan','retur'));
     }
 
     public function alamat()

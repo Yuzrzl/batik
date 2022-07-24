@@ -39,8 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [NewController::class, 'index'])->name('home');
     Route::get('contact', [NewController::class, 'contact']);
     //Route::view('about', 'admin.about');
-    Route::get('cetak', [CetakController::class, 'cetak_pesanan']);
+    //Route::get('cetak', [CetakController::class, 'cetak_pesanan']);
     Route::get('cetak-transaksi/{id}',[CetakController::class, 'cetak_transaksi']);
+    Route::get('cetak-pesanan/{id}',[CetakController::class, 'cetak_pesanan']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
@@ -57,12 +58,22 @@ Route::middleware('auth')->group(function () {
         Route::get('pesanan', [AdminController::class, 'pesanan']);
         Route::get('respon-pesanan/{id}', [AdminController::class, 'edit']);
         Route::post('update_status/{id}', [AdminController::class, 'update']);
+        Route::get('ctk-lap/', [AdminController::class, 'cetak_lap']);
+
+        Route::get('ctk-pertgl/{tglawal}/{tglakhir}', [AdminController::class, 'cetak_pertanggal'])->name('ctk-pertgl');
+        Route::get('ctk-pes', [AdminController::class, 'ctkpes']);
+        
+        Route::get('ctk-trans', [AdminController::class, 'ctktrans']);
+        Route::get('ctk-pertgl-trans/{tglawal}/{tglakhir}', [AdminController::class, 'cetak_pertanggal_trans'])->name('ctk-pertgl-trans');
+
 
         Route::get('laporan-retur', [ReturController::class, 'admin']);
         Route::get('detail-retur/{id}', [ReturController::class, 'detail']);
 
         Route::get('mail/{id}', [MailController::class, 'index'])->name('mail');
-        Route::post('kirim_pesan', [MailController::class, 'wa']);
+        // Route::post('kirim_pesan', [MailController::class, 'wa']);
+
+        Route::get('send-mail',[MailController::class, 'send']);
 
         Route::get('laporan-transaksi', [AdminController::class, 'index']);
     });
@@ -99,5 +110,5 @@ Route::middleware('auth')->group(function () {
     Route::post('order', [PesananController::class, 'post']);
 
     Route::get('retur', [ReturController::class, 'index']);
-    Route::post('retur-keluhan', [ReturController::class, 'store']);
+    Route::post('retur-keluhan', [ReturController::class, 'simpan'])->name('retur.simpan');
 });

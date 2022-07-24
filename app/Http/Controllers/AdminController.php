@@ -6,24 +6,60 @@ use App\Models\Order;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
-use App\Models\User;
+
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request) 
     {
-        $orders = Order::all();
+        if ($request->has('search')) {
+            $orders = Order::where('status', 'LIKE', '%' . $request->search . '%')->paginate(10);
+        } else {
+            $orders = Order::paginate(10);
+        }
         return view('admin.pesanan.laporan_transaksi', compact('orders'));
     }
 
-    public function pesanan()
+    public function pesanan(Request $request)
+    {
+        if ($request->has('search')) {
+            $pesanan = Pesanan::where('id_pesanan', 'LIKE', '%' . $request->search . '%')->paginate(10);
+        } 
+        else {
+            $pesanan = Pesanan::paginate(10);
+        }
+        return view('admin.pesanan.pesanan', compact('pesanan'));
+    }
+    
+    public function cetak_lap(Request $request)
     {
         $pesanan = Pesanan::all();
-        $cart = Cart::all()->sortByDesc('user_id');
+        return view('admin.pesanan.ctklap', compact('pesanan'));
+    }
+
+    public function ctkpes(){
+        return view('admin.pesanan.lap-pertanggal');
+    }
+
+    public function ctktrans(){
+        return view('admin.pesanan.ctk-tgltrans');
+    }
 
 
-        return view('admin.pesanan.pesanan', compact('pesanan', 'cart'));
+
+    public function cetak_pertanggal(Request $request){
+        $tglakhir = $request->tglakhir;
+        $tglawal =$request->tglawal;
+        $pesanan = Pesanan::whereBetween('created_at',[$tglawal, $tglakhir])->get();
+         //dd(["Tanggal Awal : ". $tglawal, "Tanggal Akhri ". $tglakhir]);
+         return view('admin.pesanan.ctkpertgl',compact('pesanan'));
+    }
+    public function cetak_pertanggal_trans(Request $request){
+        $tglakhir = $request->tglakhir;
+        $tglawal =$request->tglawal;
+        $orders = Order::whereBetween('created_at',[$tglawal, $tglakhir])->get();
+         //dd(["Tanggal Awal : ". $tglawal, "Tanggal Akhri ". $tglakhir]);
+         return view('admin.pesanan.tgl_trans',compact('orders'));
     }
 
     public function edit(Request $request, $id)
@@ -33,18 +69,6 @@ class AdminController extends Controller
         $isi = Pesanan::findOrFail($id)->orders->item_cart;
         $test = json_decode($isi, true);
 
-
-        // foreach ($test as $key ) {
-
-        //     $a = $key['name'];
-        //     $a = $key['quantity'];
-        //     // foreach ($key as $k) {
-        //     //     echo $k."\n";
-        //     // }
-        // }
-        
-
-        // return ;
         return view('admin.pesanan.edit_pesanan ', compact('pesanan','isi'));
     }
 

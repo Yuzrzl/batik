@@ -10,7 +10,7 @@ class retur extends Model
 {
     use HasFactory;
     protected $table = 'returs';
-    protected $guarded =[];
+    protected $guarded =['id'];
     public function user(){
         return $this->belongsTo('App\Models\User');
     }

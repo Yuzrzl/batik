@@ -35,8 +35,6 @@ class PayController extends Controller
 
         $alamat = Alamat::where('user_id', auth()->user()->id)->get();
         $carts = Cart::where('user_id', auth()->user()->id)->get();
-        // return $carts;
-        // $pesanan = Pesanan::where('cart_id', $request->cart_id);
 
         $cart = [];
         for ($i = 0; $i < sizeof($carts); $i++) {
@@ -46,8 +44,16 @@ class PayController extends Controller
             $cart[$i]['price'] = $carts[$i]->product->harga;
         }
 
-        // return $cart;
-        $ongkir = RajaOngkirController::getAlamat('39', '12', '250', 'jne');
+        
+
+        // $berat = 0 ;
+        // $berat += $carts[$i]->jumlah;
+
+        // dd($berat);
+        $dest = $alamat[0]->destination;
+        
+        $ongkir = RajaOngkirController::getAlamat('39', $dest, '250', 'jne');
+
         $total = 0;
         for ($i = 0; $i < sizeof($cart); $i++) {
             $produk = Product::find($cart[$i]['id']);
@@ -63,10 +69,9 @@ class PayController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => 'Tr-' . rand(),
-                'gross_amount' => $total,
+                'gross_amount' => $sum,
             ),
-            'item_details' =>
-            $cart,
+            // 'item_details' =>$cart,
             'customer_details' => array(
                 'first_name' => $name,
                 'last_name' => '',
@@ -85,11 +90,11 @@ class PayController extends Controller
         $tgljadi = Carbon::now()->addDay(30)->toRfc850String();
         $alamat = Alamat::where('user_id', auth()->user()->id)
             ->first();
-        $alamat_lengkap = $alamat->alamat . ', ' . $alamat->destination . ', ' . $alamat->kodepos;
+        $alamat_lengkap = $alamat->alamat . ', ' . $alamat->destination_name . ', ' . $alamat->kodepos;
         $carts = Cart::where('user_id', auth()->user()->id)->get();
-        foreach ($carts as $cart) {
-            $cart_id = $cart->id;
-        }
+        // foreach ($carts as $cart) {
+        //     $cart_id = $cart->id;
+        // }
 
         $cart = [];
         for ($i = 0; $i < sizeof($carts); $i++) {
@@ -120,7 +125,7 @@ class PayController extends Controller
                 'order' => $order->id,
                 'order_id' => $json->order_id,
                 'alamat' => $alamat_lengkap,
-                'status' => 'Pesanan Diproses',
+                'status' => 'Pesanan Diterima',
                 'tanggal_pesan' => $tglpesan,
                 'tanggal_jadi' => $tgljadi,
             ]
