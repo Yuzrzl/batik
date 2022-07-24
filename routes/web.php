@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('contact', [NewController::class, 'contact']);
     //Route::view('about', 'admin.about');
     Route::get('cetak', [CetakController::class, 'cetak_pesanan']);
+    Route::get('cetak-transaksi/{id}',[CetakController::class, 'cetak_transaksi']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
@@ -84,8 +85,10 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::post('/store_t', [TransaksiController::class, 'store']);
+    //Route::post('/store_t', [TransaksiController::class, 'store']);
     Route::get('transaksi', [TransaksiController::class, 'index'])->name('transa');
+    Route::get('pembayaran', [TransaksiController::class, 'pembayaran']);
+    Route::get('/pesanan-detail', [TransaksiController::class, 'test']);
 
     Route::get('pay', [PayController::class, 'index']);
     Route::post('/pay', [PayController::class, 'pay_post']);
@@ -93,7 +96,6 @@ Route::middleware('auth')->group(function () {
     Route::get('pengiriman', [RajaOngkirController::class, 'index']);
     Route::get('/province/{id}/cities', [RajaOngkirController::class, 'getCities']);
 
-    Route::get('pembayaran', [TransaksiController::class, 'pembayaran']);
     Route::post('order', [PesananController::class, 'post']);
 
     Route::get('retur', [ReturController::class, 'index']);

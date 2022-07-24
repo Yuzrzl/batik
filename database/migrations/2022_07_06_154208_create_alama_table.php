@@ -18,11 +18,13 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('origin');
-            $table->string('province_destination');
-            $table->string('destination');
-            $table->string('courier');
-            $table->string('alamat');
-            $table->integer('kodepos');
+            $table->string('province_destination')->nullable();
+            $table->string('province')->nullable();
+            $table->string('destination')->nullable();
+            $table->string('destination_name')->nullable();
+            $table->string('courier')->nullable();
+            $table->string('alamat')->nullable();
+            $table->integer('kodepos')->nullable();
             $table->timestamps();
         });
     }

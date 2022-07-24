@@ -6,7 +6,7 @@
             <h1 class="text-bold text-lg text-center mb-4">Detail Pembayaran</h1>
             @php
             $total = 0;
-        @endphp
+            @endphp
              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -21,7 +21,8 @@
                     <td>Alamat Tujuan</td>
 
                     @foreach ($alamat as $item)
-                    <td>: {{ $alamat_lengkap = $item->alamat.', '.$item->destination.', '.$item->kodepos}}</td>
+                    <p hidden>{{ $dest = $item->destination }}</p>
+                    <td>: {{ $alamat_lengkap = $item->alamat.', '.$item->destination_name.', '.$item->kodepos}}</td>
                     <td><a class="bg-yellow-500 hover:bg-yellow-400 text-white p-2 rounded-xl" href="{{ '/edit_alamat/'.$item->id }}">ubah alamat</a></td>
                     @endforeach
                 </tr>
@@ -49,6 +50,7 @@
                 
             </thead>
             <tbody>
+                
                 @foreach ($carts as $cart)
                 <p hidden>{{ $id = $cart->id }}</p>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
@@ -67,24 +69,25 @@
                         </div>
                     </td>
                     <th class="px-2 py-4">
-                        Rp. {{ $subtotal = $cart->product->harga*$cart->jumlah }}
+                        Rp. {{number_format($subtotal = $cart->product->harga*$cart->jumlah)  }}
                     </th>
                 </tr>
                 @php
-                    $total += ($cart->product->harga*$cart->jumlah);
+                    $ongkir = App\Http\Controllers\RajaOngkirController::getAlamat('39', $dest , '250', 'jne');
+                    $total += ($subtotal);
+                    $sum = $total+$ongkir;
                 @endphp
                 @endforeach
                 <tr class="border-b bg-white">
                     <td></td>
                     <td colspan="2"></td>
-                    {{-- <td ><a href="/pengiriman">tambah ongkir</a></td> --}}
-                    <td >Ongkos Kirim</td>
-                    <td class="p-2 text-bold "></td>
+                    <td class="text-bold text-uppercase">Ongkos Kirim</td>
+                    <td class="p-2 text-bold ">Rp. {{number_format($ongkir) }}</td>
                 </tr>
                 <tr class="border-b bg-white">
-                    <td class=" text-right text-bold" colspan="3"><h1 class="p-2 bold">Total</h1></td>
-                    <td></td>
-                    <td class=""><h1 class="p-2 text-bold ">Rp. {{number_format( $total)}}</h1></td>
+                    <td colspan="3"></td>
+                    <td class="text-bold text-uppercase"><h1 class="p-2 bold">Total</h1></td>
+                    <td class=""><h1 class="p-2 text-bold ">Rp. {{number_format( $sum)}}</h1></td>
                     <td class=""></td>
                 </tr>
             </tbody>
@@ -93,7 +96,7 @@
             <h1 class="text-center text-bold text-lg mb-2">KONFIRMASI PESANAN</h1>
             <div class="tipe flex justify-center">
                 <a class="py-2 px-4 m-2 bg-red-500 hover:bg-red-600 text-white rounded-xl" href="/cart">Cek Ulang</a>
-                <a  href="/pay" class="py-2 px-4 m-2 bg-green-500 hover:bg-green-600 text-white rounded-xl">Konfirmasi</a>
+                <a  href="/pay" class="py-2 px-4 m-2 bg-green-500 hover:bg-green-600 text-white rounded-xl {{ (isset($alamat[0]->origin) ? '' : 'hidden') }}">Konfirmasi</a>
             </div>
             <small class="text-red-500">Setelah pembayaran data tidak dapat dirubah, mohon cek ulang pesanan anda!</small>
         </div>

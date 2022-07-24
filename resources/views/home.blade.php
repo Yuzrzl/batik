@@ -1,4 +1,3 @@
-
 @extends('template.home_template')  
 @section('home')
 

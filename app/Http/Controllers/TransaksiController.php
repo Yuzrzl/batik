@@ -5,26 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Alamat;
-use App\Models\Product;
-use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pesanan;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public static function index(Request $request)
     {
         $orders = Order::where('user_id', auth()->user()->id)->get();
-        $carts = Cart::where('user_id', auth()->user()->id)->get();
-        $pesanan = Pesanan::where('cart_id', $carts[1]->id)->get();
-        return view('transaksi.transaksi', compact('orders', 'pesanan', 'carts'));
+
+        return view('transaksi.transaksi', compact('orders',));
+    }
+
+    public function test(){
+        $orders = Order::where('user_id', auth()->user()->id)->get();
+
+        for ($i = 0; $i < sizeof($orders); $i++) {
+            $pesanan[$i] = Pesanan::where('order', $orders[$i]->id)->get();
+        }
+        return view('transaksi.detail_pesanan', compact('pesanan','orders'));
     }
 
     public function pembayaran()
     {
         $alamat = Alamat::where('user_id', auth()->user()->id)->get();
         $carts = Cart::where('user_id', auth()->user()->id)->get();
-        return view('transaksi.pembayaran', compact('carts', 'alamat'));
+        return view('transaksi.pembayaran', compact('carts', 'alamat')) ;
     }
 }

@@ -18,19 +18,19 @@ class PesananController extends Controller
         $tgljadi = Carbon::now()->addDay(30)->toRfc850String();
 
         $pesanan = Pesanan::where('cart_id', $request->cart_id)->first();
-        if (isset($pesanan)) {
-        } else {
-            Pesanan::create([
-                'id_pesanan' => 'PB - 000' . rand(),
-                'order_id' => null,
-                'cart_id' => $request->cart_id,
-                'alamat' => $request->alamat,
-                'resi' => $request->resi,
-                'status' => $request->status,
-                'tanggal_pesan' => $tglpesan,
-                'tanggal_jadi' => $tgljadi,
-            ]);
-        }
+        // if (isset($pesanan)) {
+        // } else {
+        //     Pesanan::create([
+        //         'id_pesanan' => 'PB - 000' . rand(),
+        //         'order_id' => null,
+        //         'cart_id' => $request->cart_id,
+        //         'alamat' => $request->alamat,
+        //         'resi' => $request->resi,
+        //         'status' => $request->status,
+        //         'tanggal_pesan' => $tglpesan,
+        //         'tanggal_jadi' => $tgljadi,
+        //     ]);
+        // }
         return redirect('pay');
     }
 }

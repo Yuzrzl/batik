@@ -13,6 +13,7 @@ use App\Models\Pesanan;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Controllers\RajaOngkirController;
 
 class PayController extends Controller
 {
@@ -46,6 +47,7 @@ class PayController extends Controller
         }
 
         // return $cart;
+        $ongkir = RajaOngkirController::getAlamat('39', '12', '250', 'jne');
         $total = 0;
         for ($i = 0; $i < sizeof($cart); $i++) {
             $produk = Product::find($cart[$i]['id']);
@@ -53,10 +55,11 @@ class PayController extends Controller
             $jml = $cart[$i]['quantity'];
             $tot = $harga * $jml;
             $total += $tot;
-        }
-        // return $total;
 
-        // return $cart[0]['id'];
+        }
+        $sum = $total+$ongkir;
+
+
         $params = array(
             'transaction_details' => array(
                 'order_id' => 'Tr-' . rand(),
@@ -88,6 +91,13 @@ class PayController extends Controller
             $cart_id = $cart->id;
         }
 
+        $cart = [];
+        for ($i = 0; $i < sizeof($carts); $i++) {
+            $cart[$i]['id'] = $carts[$i]->product_id;
+            $cart[$i]['name'] = $carts[$i]->product->product_name;
+            $cart[$i]['quantity'] = $carts[$i]->jumlah;
+            $cart[$i]['price'] = $carts[$i]->product->harga;
+        }
 
         User::all();
         $json = json_decode($request->get('json'));
@@ -101,6 +111,7 @@ class PayController extends Controller
         $order->gross_amount = isset($json->gross_amount) ? $json->gross_amount : null;
         $order->payment_code = isset($json->payment_code) ? $json->payment_code : null;
         $order->pdf_url = isset($json->pdf_url) ? $json->pdf_url : null;
+        $order->item_cart = json_encode($cart);
         $order->save();
 
         Pesanan::create(
@@ -108,13 +119,14 @@ class PayController extends Controller
                 'id_pesanan' => 'PB - 000' . rand(),
                 'order' => $order->id,
                 'order_id' => $json->order_id,
-                'cart_id' =>  $cart_id,
                 'alamat' => $alamat_lengkap,
                 'status' => 'Pesanan Diproses',
                 'tanggal_pesan' => $tglpesan,
                 'tanggal_jadi' => $tgljadi,
             ]
         );
+
+        //return $order;
         //$id_order = Order::where('id', auth()->user()->id);
 
         return redirect()->route('transa');

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('payment_type');
             $table->string('payment_code')->nullable();
             $table->string('pdf_url')->nullable();
+            $table->string('item_cart')->nullable();
             $table->timestamps();
         });
     }

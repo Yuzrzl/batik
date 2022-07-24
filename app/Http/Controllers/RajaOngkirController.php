@@ -44,6 +44,8 @@ class RajaOngkirController extends Controller
       //    );
       // }
 
+      
+
       $provinces = Province::all();
       $cities = City::all();
       //dd($request->all());
@@ -56,6 +58,22 @@ class RajaOngkirController extends Controller
       //     ])->get('https://api.rajaongkir.com/starter/city');
       //     return $response->body();
    }
+
+
+   public static function getAlamat($origin, $destination, $weight, $courier){
+      $response = Http::withHeaders([
+         'key' => '7ad9c26844ba56236dc98a2fc10814da'
+      ])->post('https://api.rajaongkir.com/starter/cost', [
+         'origin' => $origin,
+         'destination' => $destination,
+         'weight' => $weight,
+         'courier' => $courier
+      ]);
+
+      $cekongkir = $response['rajaongkir']['results'][0]['costs'][1]['cost'][0]['value'];
+      return $cekongkir;
+   }
+
    public function getCities($id)
    {
       $city = City::where('province_id', $id)->pluck('city_name', 'id');

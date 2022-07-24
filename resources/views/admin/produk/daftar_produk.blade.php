@@ -42,9 +42,9 @@
                                         <td><img src="{{ $produk->gambar}}" alt="" style="width: 50px; height:50px"> </td>
                                         <td>{{ $produk->harga }} </td>
                                         <td>{{ $produk->kategori }} </td>
-                                        <td><a role="button" href="{{ 'edit_p/' .$produk->id}}" class="btn btn-warning">Edit</a>
+                                        <td><a  role="button" href="{{ 'edit_p/' .$produk->id}}" class="btn btn-warning">Edit</a>
                                                 <span></span> 
-                                            <a role="button" href="{{ 'destroy_p/'.$produk->id }}" class="btn btn-danger">Hapus</a></td>
+                                            <a onclick="myFunction()"  role="button" href="{{ 'destroy_p/'.$produk->id }}" class="btn btn-danger">Hapus</a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -62,4 +62,12 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+    <script>
+function myFunction() {
+  var txt = confirm("Hapus Produk?");
+  if (txt == false) {
+    close();
+  } 
+}
+</script>
 @endsection

@@ -15,9 +15,9 @@ class Pesanan extends Model
     }
     
 
-    public function cart()
-    {
-        return $this->belongsTo('App\Models\Cart', 'id');
-    }
+    // public function cart()
+    // {
+    //     return $this->belongsTo('App\Models\Cart');
+    // }
     
 }

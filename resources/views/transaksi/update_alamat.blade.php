@@ -33,18 +33,24 @@
                 <div class="content mb-2">
                 <label for="">Provinsi</label>
                 <select class="form-control" name="province_destination" id="">
-                    <option value="{{ $alamats->province_destination }}">{{ $alamats->province_destination }}</option>
+                    <option value="{{ $alamats->province_destination }}">{{$destination = $alamats->province_destination }}</option>
+                    
                     @foreach ($provinces as $province )
-                    <option value="{{ $province->id }}">{{ $province->province }}</option>
+                    <option value="{{ $province->id }}">{{$p = $province->province }}</option>
                     @endforeach
+                    <input type="text" name="province" value="{{ $destination }}">
                 </select>
             </div>
             
             <div class="content mb-2">
                 <label for="">Kabupaten</label>
                 <select class="form-control" name="destination" id="">
-                    <option value="{{ $alamats->destination}}">{{ $alamats->destination}}</option>
+                    <option value="{{ $alamats->destination}}">{{$alamats->destination}}</option>
                 </select>
+                <select hidden class="form-control" name="destination_name" id="">
+                    <option value="{{ $alamats->destination_name}}">{{ $alamats->destination_name}}</option>
+                </select>
+               
             </div>
         </div>
     </div>
@@ -91,14 +97,20 @@
                         type:"GET",
                         dataType:"json",
                         success:function(data){
+                            $('select[name="province"]').empty();
                             $('select[name="destination"]').empty();
+                            $('select[name="destination_name"]').empty();
                             $.each(data,function(key, value){
-                                $('select[name="destination"]').append('<option value="'+value+'">'+value+'</option>');
+                                $('select[name="province"]').append('<input value="'+value+'">');
+                                $('select[name="destination"]').append('<option value="'+key+'">'+value+'</option>');
+                                $('select[name="destination_name"]').append('<option value="'+value+'"></option>');
                             });
                         }
                     });
                 } else{
+                    $('select[name="province"]').empty();
                     $('select[name="destination"]').empty();
+                    $('select[name="destination_name"]').empty();
                 }
             });
         });

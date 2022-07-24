@@ -21,14 +21,31 @@ class AdminController extends Controller
     {
         $pesanan = Pesanan::all();
         $cart = Cart::all()->sortByDesc('user_id');
+
+
         return view('admin.pesanan.pesanan', compact('pesanan', 'cart'));
     }
 
     public function edit(Request $request, $id)
     {
         $pesanan = Pesanan::findOrFail($id);
-        $cart = Cart::where('id_cart');
-        return view('admin.pesanan.edit_pesanan ', compact('pesanan','cart'));
+
+        $isi = Pesanan::findOrFail($id)->orders->item_cart;
+        $test = json_decode($isi, true);
+
+
+        // foreach ($test as $key ) {
+
+        //     $a = $key['name'];
+        //     $a = $key['quantity'];
+        //     // foreach ($key as $k) {
+        //     //     echo $k."\n";
+        //     // }
+        // }
+        
+
+        // return ;
+        return view('admin.pesanan.edit_pesanan ', compact('pesanan','isi'));
     }
 
     public function update(Request $request, $id){

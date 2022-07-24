@@ -19,8 +19,6 @@ return new class extends Migration
             $table->bigInteger('order')->unsigned()->nullable();
             $table->foreign('order')->references('id')->on('orders');
             $table->string('order_id')->nullable();
-            $table->bigInteger('cart_id')->unsigned();
-            $table->foreign('cart_id')->references('id')->on('carts');
             $table->string('alamat');
             $table->string('resi')->nullable();
             $table->string('status');
